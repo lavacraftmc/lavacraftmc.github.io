@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lavacraft Files</title>
+    </head>
+
+    <body>
+        <h1>Lavacraft Downloads</h1>
+        <div id="stuff"></div>
+        <script>
+        let b = document;
+        var request = new XMLHttpRequest();
+        let response;
+        request.open('get', 'https://api.github.com/repos/lavacraftmc/lavacraft4-resource-pack/releases', true)
+            request.onload = function (e) {
+            if (request.readyState === 4) {
+                if (request.status === 200) {
+                    response = JSON.parse(request.response);
+                    console.log(request.response)
+                    t(b, response);
+        
+                } else {
+                    console.error(request.statusText);
+                }
+            }
+        };
+
+        function t(document1, response)
+        {
+            var table = document1.getElementById("stuff");
+            if (response.length > 0) {
+
+                var h5 = table.appendChild(document1.createElement("h5"));
+                h5.appendChild(document1.createTextNode("Latest Version: " + response[0].tag_name));
+                var a = table.appendChild(document1.createElement("a"));
+                a.appendChild(document1.createTextNode("Download: " + response[0].tag_name));
+                a.setAttribute("href", response[0].assets[0].browser_download_url);
+                var p = table.appendChild(document1.createElement("p"));
+                p.appendChild(document1.createTextNode("Digest: " + response[0].assets[0].digest))
+            }
+        } 
+
+        request.send();
+        </script>
+    </body>
+</html>
